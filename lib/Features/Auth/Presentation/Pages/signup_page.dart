@@ -4,6 +4,7 @@ import 'package:blog_app_flutter/Features/Auth/Presentation/widgets/auth_field.d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../Core/Common/Widgets/loader.dart';
 import '../widgets/auth_gradient_button.dart';
 import 'login_page.dart';
 
@@ -34,15 +35,17 @@ class _SignupPageState extends State<SignupPage> {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: Form(
-          key: formKey,
-          child: BlocConsumer<AuthBloc, AuthState>(
-            listener: (context, state) {
-              // TODO: implement listener
-            },
-            builder: (context, state) {
-              if (state is AuthLoading) {}
-              return Column(
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return Loader();
+            }
+            return Form(
+              key: formKey,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
@@ -103,9 +106,9 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
