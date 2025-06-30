@@ -1,14 +1,15 @@
 import 'package:blog_app_flutter/Core/Failure/exceptions.dart';
+import 'package:blog_app_flutter/Features/Auth/Data/Model/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteDataSource {
-  Future<String> signUpWithEmailPassword({
+  Future<UserModel> signUpWithEmailPassword({
     required String email,
     required String password,
     required String name,
   });
 
-  Future<String> logInWithEmailPassword({
+  Future<UserModel> logInWithEmailPassword({
     required String email,
     required String password
   });
@@ -19,29 +20,30 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   AuthRemoteDataSourceImpl(this.supabaseClient);
   @override
-  Future<String> logInWithEmailPassword({
+  Future<UserModel> logInWithEmailPassword({
     required String email,
     required String password,
   }) async {
-    try {
-      final response = await supabaseClient.auth.signInWithPassword(
-        email: email,
-        password: password,
-      );
-
-      final user = response.user;
-      if (user != null) {
-        return user.id;
-      } else {
-        throw ServerExceptions('Login failed: User is null');
-      }
-    } catch (e) {
-      throw ServerExceptions('Login failed: $e');
-    }
+    // try {
+    //   final response = await supabaseClient.auth.signInWithPassword(
+    //     email: email,
+    //     password: password,
+    //   );
+    //
+    //   final user = response.user;
+    //   if (user != null) {
+    //     return user.id;
+    //   } else {
+    //     throw ServerExceptions('Login failed: User is null');
+    //   }
+    // } catch (e) {
+    //   throw ServerExceptions('Login failed: $e');
+    // }
+    throw UnimplementedError();
   }
 
   @override
-  Future<String> signUpWithEmailPassword({
+  Future<UserModel> signUpWithEmailPassword({
     required String email,
     required String password,
     required String name,
@@ -57,7 +59,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
       final user = response.user;
       if (user != null) {
-        return user.id;
+        return UserModel.fromJson(user.toJson());
       } else {
         throw ServerExceptions('Signup failed: User is null');
       }
