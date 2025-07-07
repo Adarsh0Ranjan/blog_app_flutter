@@ -1,4 +1,5 @@
 import 'package:blog_app_flutter/Core/Theme/app_pallete.dart';
+import 'package:blog_app_flutter/Core/Utils/show_snackbar.dart';
 import 'package:blog_app_flutter/Features/Auth/Presentation/Bloc/auth_bloc.dart';
 import 'package:blog_app_flutter/Features/Auth/Presentation/widgets/auth_field.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,9 @@ class _SignupPageState extends State<SignupPage> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             // TODO: implement listener
+            if(state is AuthFailure) {
+              showSnackBar(context, state.message);
+            }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
