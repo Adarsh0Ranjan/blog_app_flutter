@@ -1,7 +1,6 @@
-import 'dart:ffi';
-
 import 'package:blog_app_flutter/Features/Auth/Data/Datasources/auth_remote_data_source.dart';
 import 'package:blog_app_flutter/Features/Auth/Data/Repository/auth_repsitory_impl.dart';
+import 'package:blog_app_flutter/Features/Auth/Domain/UseCases/user_sign_in.dart';
 import 'package:blog_app_flutter/Features/Auth/Domain/UseCases/user_sign_up.dart';
 import 'package:blog_app_flutter/Features/Auth/Presentation/Bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -36,7 +35,11 @@ void _initAuth() {
     () => UserSignUp(authRepository: serviceLocator()),
   );
 
+  serviceLocator.registerFactory(
+    () => UserSignIn(authRepository: serviceLocator()),
+  );
+
   serviceLocator.registerLazySingleton(
-    () => AuthBloc(userSignUp: serviceLocator()),
+    () => AuthBloc(userSignUp: serviceLocator(), userSignIn: serviceLocator()),
   );
 }
